@@ -27,10 +27,8 @@ class ShopServiceTest {
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
 
-        //WHEN
-        Order actual = shopService.addOrder(productsIds);
-
-        //THEN
-        assertNull(actual);
+        //WHEN & THEN
+        //assertNull(actual);
+        assertThrows(RuntimeException.class, () -> shopService.addOrder(productsIds));
     }
 }
