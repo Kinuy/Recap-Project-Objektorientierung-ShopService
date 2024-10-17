@@ -2,8 +2,6 @@ import java.time.ZonedDateTime;
 
 public class Main {
     public static void main(String[] args) {
-        ShopService shopService = new ShopService();
-        OrderRepo orderRepo = new OrderMapRepo();
 
 
         ProductRepo productRepo = new ProductRepo();
@@ -14,9 +12,14 @@ public class Main {
         Order order1 = new Order("1",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
         Order order2 = new Order("2",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
         Order order3 = new Order("3",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+
+        OrderRepo orderRepo = new OrderMapRepo();
         orderRepo.addOrder(order1);
         orderRepo.addOrder(order2);
         orderRepo.addOrder(order3);
+
+        ShopService shopService = new ShopService(productRepo,orderRepo);
+        shopService.getOrderByStatus(OrderStatus.PROCESSING);
 
 
 

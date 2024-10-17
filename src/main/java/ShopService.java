@@ -1,3 +1,4 @@
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZonedDateTime;
@@ -8,8 +9,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class ShopService {
-    private ProductRepo productRepo = new ProductRepo();
-    private OrderRepo orderRepo = new OrderMapRepo();
+    @NonNull
+    private final ProductRepo productRepo; // = new ProductRepo();
+    private final OrderRepo orderRepo; // = new OrderMapRepo();
 
     public Order addOrder(List<String> productIds) {
         List<Product> products = new ArrayList<>();
