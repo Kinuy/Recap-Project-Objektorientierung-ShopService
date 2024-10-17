@@ -32,18 +32,35 @@ public class ShopService {
     public List<Order> getOrderByStatus(OrderStatus status) {
         return orderRepo.getOrders().stream()
                 .filter(name -> name.status() == status)
-                .peek(name -> System.out.println("Filtered: " + name))
+                //.peek(name -> System.out.println("Filtered: " + name))
                 .collect(Collectors.toList());
     }
 
     public Optional<Order> updateOrder(String orderId, OrderStatus status) {
         for (Order order : orderRepo.getOrders()) {
             if (order.id().equals(orderId)) {
-                order = order.withStatus(status);
-                return Optional.of(order);
+                Order newOrder = order.withStatus(status);
+                orderRepo.removeOrder(orderId);
+                orderRepo.addOrder(newOrder);
+                return Optional.of(newOrder);
             }
         }
 
         return Optional.empty();
+    }
+
+    public Optional<HashMap<OrderStatus,Order>> getOldestOrderPerStatus(){
+        HashMap<OrderStatus,Order> orders = new HashMap<>();
+        for(OrderStatus orderStatus : OrderStatus.values()){
+            List<Order> sortedList = getOrderByStatus(orderStatus).stream()
+                    .sorted(Comparator.comparing(Order::timestamp).reversed())
+                    .filter(order -> order.status() == orderStatus)
+                    .toList();
+            if(!sortedList.isEmpty()){
+                Order olderstOrder = sortedList.get(0);
+                orders.put(orderStatus,olderstOrder);
+            }
+        }
+        return Optional.of(orders);
     }
 }

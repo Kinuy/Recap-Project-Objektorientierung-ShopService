@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,13 +22,19 @@ class ShopServiceTest {
         productRepo.addProduct(new Product("4","Pflaume"));
 
         Order order1 = new Order("1",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
-        Order order2 = new Order("2",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
-        Order order3 = new Order("3",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order2 = new Order("2",productRepo.getProducts(),OrderStatus.IN_DELIVERY, ZonedDateTime.now());
+        Order order3 = new Order("3",productRepo.getProducts(),OrderStatus.COMPLETED, ZonedDateTime.now());
+        Order order4 = new Order("4",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order5 = new Order("5",productRepo.getProducts(),OrderStatus.IN_DELIVERY, ZonedDateTime.now());
+        Order order6 = new Order("6",productRepo.getProducts(),OrderStatus.COMPLETED, ZonedDateTime.now());
 
 
         orderRepo.addOrder(order1);
         orderRepo.addOrder(order2);
         orderRepo.addOrder(order3);
+        orderRepo.addOrder(order4);
+        orderRepo.addOrder(order5);
+        orderRepo.addOrder(order6);
     }
 
 
@@ -71,6 +78,23 @@ class ShopServiceTest {
 
         //THEN
         assertTrue(actual.get().status().equals(OrderStatus.IN_DELIVERY));
+
+    }
+
+
+    // TODO: What is wrong?
+    @Test
+    void getOldestOrderPerStatus() {
+        //GIVEN
+        ShopService shopService = new ShopService(productRepo, orderRepo,idServive);
+        HashMap<OrderStatus,Order> orderMap = shopService.getOldestOrderPerStatus().get();
+
+        //WHEN
+
+        Order actual = orderMap.get(OrderStatus.PROCESSING);
+
+        //THEN
+        assertTrue(actual.id().equals("4"));
 
     }
 }
