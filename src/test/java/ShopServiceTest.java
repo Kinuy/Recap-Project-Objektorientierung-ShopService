@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +13,12 @@ class ShopServiceTest {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
-
+        ZonedDateTime date = ZonedDateTime.now();
         //WHEN
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")),OrderStatus.PROCESSING);
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")),OrderStatus.PROCESSING, date);
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
