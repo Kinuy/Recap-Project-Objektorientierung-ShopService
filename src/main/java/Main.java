@@ -34,6 +34,8 @@ public class Main {
         HashMap oldesOrdersPerStatus = shopService.getOldestOrderPerStatus().get();
         System.out.println(oldesOrdersPerStatus.get(OrderStatus.PROCESSING));
 
+        FileReader fileReader = new FileReader();
+        fileReader.readFile();
 
 
 
