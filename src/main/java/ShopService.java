@@ -30,4 +30,14 @@ public class ShopService {
                 .collect(Collectors.toList());
         return ordersFilteredByStatus;
     }
+
+    public Optional<Order> updateOrder(String orderId, OrderStatus status) {
+        for (Order order : orderRepo.getOrders()) {
+            if (order.id().equals(orderId)) {
+                order = order.withStatus(status);
+                return Optional.of(order);
+            }
+        }
+        return Optional.empty();
+    }
 }
