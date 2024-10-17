@@ -1,9 +1,11 @@
+import lombok.RequiredArgsConstructor;
+
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+
+
+@RequiredArgsConstructor
 
 public class ShopService {
     private ProductRepo productRepo = new ProductRepo();
@@ -14,7 +16,7 @@ public class ShopService {
         for (String productId : productIds) {
             Optional<Product> productToOrder = productRepo.getProductById(productId);
             if (productToOrder.isEmpty()) {
-                throw new RuntimeException("Product mit der Id: " + productId + " konnte nicht bestellt werden!");
+                throw new NoSuchElementException("Product mit der Id: " + productId + " konnte nicht bestellt werden!");
             }
             products.add(productToOrder.get());
         }
@@ -25,11 +27,10 @@ public class ShopService {
     }
 
     public List<Order> getOrderByStatus(OrderStatus status) {
-        List<Order> ordersFilteredByStatus = orderRepo.getOrders().stream()
+        return orderRepo.getOrders().stream()
                 .filter(name -> name.status() == status)
                 .peek(name -> System.out.println("Filtered: " + name))
                 .collect(Collectors.toList());
-        return ordersFilteredByStatus;
     }
 
     public Optional<Order> updateOrder(String orderId, OrderStatus status) {

@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,8 @@ class ShopServiceTest {
 
         //WHEN & THEN
         //assertNull(actual);
-        assertThrows(RuntimeException.class, () -> shopService.addOrder(productsIds));
+//        assertThrows(RuntimeException.class, () -> shopService.addOrder(productsIds));
+        assertThrows(NoSuchElementException.class, () -> shopService.addOrder(productsIds));
     }
 
     @Test
