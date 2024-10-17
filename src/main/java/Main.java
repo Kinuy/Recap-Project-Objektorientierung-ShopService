@@ -18,8 +18,11 @@ public class Main {
         orderRepo.addOrder(order2);
         orderRepo.addOrder(order3);
 
-        ShopService shopService = new ShopService(productRepo,orderRepo);
+        IdServive idService = new IdServive();
+
+        ShopService shopService = new ShopService(productRepo,orderRepo,idService);
         shopService.getOrderByStatus(OrderStatus.PROCESSING);
+
 
 
 

@@ -5,13 +5,14 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+//@NoArgsConstructor
 @RequiredArgsConstructor
-
 public class ShopService {
     @NonNull
+
     private final ProductRepo productRepo; // = new ProductRepo();
     private final OrderRepo orderRepo; // = new OrderMapRepo();
+    private final IdServive idServive;
 
     public Order addOrder(List<String> productIds) {
         List<Product> products = new ArrayList<>();

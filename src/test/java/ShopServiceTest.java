@@ -9,10 +9,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShopServiceTest {
 
+    ProductRepo productRepo = new ProductRepo();
+    OrderRepo orderRepo = new OrderMapRepo();
+    IdServive idServive = new IdServive();
+
+
+
+    void createDummyProductAndOrderRepos(){
+        productRepo.addProduct(new Product("2","Pfirsich"));
+        productRepo.addProduct(new Product("3","Banane"));
+        productRepo.addProduct(new Product("4","Pflaume"));
+
+        Order order1 = new Order("1",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order2 = new Order("2",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order3 = new Order("3",productRepo.getProducts(),OrderStatus.PROCESSING, ZonedDateTime.now());
+
+
+        orderRepo.addOrder(order1);
+        orderRepo.addOrder(order2);
+        orderRepo.addOrder(order3);
+    }
+
+
     @Test
     void addOrderTest() {
         //GIVEN
-        ShopService shopService = new ShopService();
+        this.createDummyProductAndOrderRepos();
+        ShopService shopService = new ShopService(productRepo, orderRepo,idServive);
         List<String> productsIds = List.of("1");
         ZonedDateTime date = ZonedDateTime.now();
         //WHEN
@@ -27,7 +50,7 @@ class ShopServiceTest {
     @Test
     void addOrderTest_whenInvalidProductId_expectNull() {
         //GIVEN
-        ShopService shopService = new ShopService();
+        ShopService shopService = new ShopService(productRepo, orderRepo,idServive);
         List<String> productsIds = List.of("1", "2");
 
         //WHEN & THEN
@@ -39,7 +62,7 @@ class ShopServiceTest {
     @Test
     void updateOrderTest() {
         //GIVEN
-        ShopService shopService = new ShopService();
+        ShopService shopService = new ShopService(productRepo, orderRepo,idServive);
         List<String> productsIds = List.of("1");
         Order order = shopService.addOrder(productsIds);
 
