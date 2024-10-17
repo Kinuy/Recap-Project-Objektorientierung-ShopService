@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,5 +31,20 @@ class ShopServiceTest {
         //WHEN & THEN
         //assertNull(actual);
         assertThrows(RuntimeException.class, () -> shopService.addOrder(productsIds));
+    }
+
+    @Test
+    void updateOrderTest() {
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        Order order = shopService.addOrder(productsIds);
+
+        //WHEN
+        Optional<Order> actual = shopService.updateOrder(order.id(),OrderStatus.IN_DELIVERY);
+
+        //THEN
+        assertTrue(actual.get().status().equals(OrderStatus.IN_DELIVERY));
+
     }
 }
