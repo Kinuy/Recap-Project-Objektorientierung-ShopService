@@ -53,7 +53,7 @@ public class ShopService {
         HashMap<OrderStatus,Order> orders = new HashMap<>();
         for(OrderStatus orderStatus : OrderStatus.values()){
             List<Order> sortedList = getOrderByStatus(orderStatus).stream()
-                    .sorted(Comparator.comparing(Order::timestamp).reversed())
+                    .sorted(Comparator.comparing(Order::timestamp))
                     .filter(order -> order.status() == orderStatus)
                     .toList();
             if(!sortedList.isEmpty()){

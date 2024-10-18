@@ -20,4 +20,8 @@ public class FileReader {
             e.printStackTrace();
         }
     }
+
+    public void analyzeFile() {
+
+    }
 }

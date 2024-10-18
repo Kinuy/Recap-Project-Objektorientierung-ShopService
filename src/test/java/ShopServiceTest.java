@@ -86,15 +86,19 @@ class ShopServiceTest {
     @Test
     void getOldestOrderPerStatus() {
         //GIVEN
+        this.createDummyProductAndOrderRepos();
         ShopService shopService = new ShopService(productRepo, orderRepo,idServive);
+
         HashMap<OrderStatus,Order> orderMap = shopService.getOldestOrderPerStatus().get();
+
 
         //WHEN
 
         Order actual = orderMap.get(OrderStatus.PROCESSING);
 
+
         //THEN
-        assertTrue(actual.id().equals("4"));
+        assertTrue(actual.id().equals("1"));
 
     }
 }
